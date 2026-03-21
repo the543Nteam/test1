@@ -1,0 +1,33 @@
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw
+    restart: unless-stopped
+    ports:
+      - "18789:18789"
+      - "18790:18790"
+    volumes:
+      - openclaw-config:/home/node/.openclaw
+      - openclaw-workspace:/home/node/.openclaw/workspace
+    environment:
+      # --- Model Provider ---
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+
+      # --- Ports ---
+      OPENCLAW_GATEWAY_PORT: 18789
+      OPENCLAW_BRIDGE_PORT: 18790
+
+      # --- Messaging Channels (uncomment as needed) ---
+      # SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      # SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
+      # DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18789/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  openclaw-config:
+  openclaw-workspace:
