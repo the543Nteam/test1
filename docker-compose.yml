@@ -3,6 +3,7 @@ services:
     image: ghcr.io/openclaw/openclaw:latest
     container_name: openclaw
     restart: unless-stopped
+    user: root
     ports:
       - "18800:18789"
       - "18801:18790"
