@@ -13,6 +13,7 @@ services:
     environment:
       # --- Model Provider ---
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENCLAW_MODEL: anthropic/claude-sonnet-4-6
 
       # --- Ports ---
       OPENCLAW_GATEWAY_PORT: 18789
