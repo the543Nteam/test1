@@ -18,8 +18,8 @@ services:
       OPENCLAW_BRIDGE_PORT: 18790
 
       # --- Messaging Channels (uncomment as needed) ---
-      # SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
-      # SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
       # DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:18789/healthz"]
