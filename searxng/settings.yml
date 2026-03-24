@@ -16,3 +16,18 @@ search:
   formats:
     - html
     - json
+
+# Enable a spread of engines so a single captcha/block doesn't kill search
+engines:
+  - name: google
+    disabled: false
+  - name: bing
+    disabled: false
+  - name: brave
+    disabled: false
+  - name: duckduckgo
+    disabled: false
+  - name: startpage
+    disabled: false
+  - name: wikipedia
+    disabled: false
