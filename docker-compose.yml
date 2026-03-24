@@ -14,6 +14,22 @@ services:
       retries: 3
       start_period: 15s
 
+  browserless:
+    image: ghcr.io/browserless/chromium:latest
+    container_name: browserless
+    restart: unless-stopped
+    environment:
+      TIMEOUT: -1
+      CONCURRENT: 10
+      # Optionally restrict access with a token (set BROWSERLESS_TOKEN in .env)
+      TOKEN: ${BROWSERLESS_TOKEN:-}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/json/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
   openclaw:
     image: ghcr.io/openclaw/openclaw:latest
     container_name: openclaw
@@ -37,12 +53,17 @@ services:
       # --- Search (SearXNG) ---
       SEARXNG_URL: http://searxng:8080
 
+      # --- Browser (Browserless) ---
+      BROWSERLESS_URL: ws://browserless:3000
+
       # --- Messaging Channels (uncomment as needed) ---
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
       # DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
     depends_on:
       searxng:
+        condition: service_started
+      browserless:
         condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:18789/healthz"]
