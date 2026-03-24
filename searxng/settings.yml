@@ -1,0 +1,18 @@
+# SearXNG settings for OpenClaw integration
+# See: https://docs.searxng.org/admin/settings/index.html
+use_default_settings: true
+
+server:
+  # Secret key — override via SEARXNG_SECRET_KEY env var or set directly here.
+  # Generate one with: openssl rand -hex 32
+  secret_key: "${SEARXNG_SECRET_KEY}"
+  # Disable rate limiter for internal container-to-container calls
+  limiter: false
+  image_proxy: false
+
+search:
+  safe_search: 0
+  # JSON format must be enabled for OpenClaw to query the API
+  formats:
+    - html
+    - json

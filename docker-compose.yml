@@ -1,4 +1,19 @@
 services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    restart: unless-stopped
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    environment:
+      SEARXNG_SECRET_KEY: ${SEARXNG_SECRET_KEY}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
   openclaw:
     image: ghcr.io/openclaw/openclaw:latest
     container_name: openclaw
@@ -19,10 +34,16 @@ services:
       OPENCLAW_GATEWAY_PORT: 18789
       OPENCLAW_BRIDGE_PORT: 18790
 
+      # --- Search (SearXNG) ---
+      SEARXNG_URL: http://searxng:8080
+
       # --- Messaging Channels (uncomment as needed) ---
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN}
       # DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+    depends_on:
+      searxng:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:18789/healthz"]
       interval: 30s
