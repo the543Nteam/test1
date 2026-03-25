@@ -39,8 +39,8 @@ services:
       - "18800:18789"
       - "18801:18790"
     volumes:
-      - openclaw-config:/home/node/.openclaw
-      - openclaw-workspace:/home/node/.openclaw/workspace
+      - openclaw-config:/root/.openclaw
+      - openclaw-workspace:/root/.openclaw/workspace
     environment:
       # --- Model Provider ---
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
